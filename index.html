@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Keep Notes</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #f4f4f4;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      overflow: auto;
+      padding: 20px;
+    }
+
+    #main {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #backBtn {
+      background-color: #e74c3c;
+      width: 150px;
+      margin-top: 20px;
+      display: block;
+    }
+
+    #noteContainer, #viewNotesContainer {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    #noteTitle {
+      align-self: flex-start;
+      margin-left: 30px;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #333;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #noteTitleInput {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-left: 30px;
+      margin-bottom: 10px;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #333;
+      display: none;
+    }
+
+    textarea {
+      width: 90%;
+      height: 300px;
+      font-size: 1rem;
+      padding: 15px;
+      border-radius: 10px;
+      resize: none;
+      border: 1px solid #ccc;
+    }
+
+    #stats {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #333;
+      text-align: center;
+    }
+
+    #notification {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #222;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: none;
+      z-index: 10;
+    }
+
+    #modal, #namePrompt {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 99;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      width: 300px;
+    }
+
+    .modal-content p {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+
+    .modal-content input {
+      width: 90%;
+      padding: 8px;
+      font-size: 1rem;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .modal-content .next-btn {
+      background-color: green;
+      color: white;
+    }
+
+    .modal-content .exit-btn {
+      background-color: red;
+      color: white;
+    }
+
+    .note-item {
+      background: #fff;
+      padding: 15px;
+      margin: 10px;
+      border-radius: 8px;
+      width: 80%;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+      transition: background 0.2s;
+    }
+
+    .note-item:hover {
+      background: #e0e0e0;
+    }
+
+    #deleteAllBtn {
+      background-color: red;
+      color: white;
+      margin-top: 20px;
+    }
+
+    #footerText {
+  margin-top: 30px;
+  font-size: 1rem;
+  color: #555;
+  text-align: center;
+}
+    
+  </style>
+</head>
+<body>
+
+  <div id="main">
+    <h1>TS-Notes - WE WRITE NOTES</h1>
+    <div class="btn-group">
+      <button id="createBtn">Create</button>
+      <button id="viewBtn">View Previous Notes</button>
+    </div>
+  </div>
+  <div id="noteContainer">
+    <div id="noteTitle"></div>
+    <input type="text" id="noteTitleInput" />
+    <textarea id="noteArea" placeholder="Start typing your note..."></textarea>
+    <div id="stats">
+      <div id="lineCount">Number of lines: 0</div>
+      <div id="charCount">Number of characters: 0</div>
+    </div>
+    <button id="backBtn">Back</button>
+  </div>
+
+  <div id="viewNotesContainer">
+    <h2>Saved Notes</h2>
+    <div id="savedNotes"></div>
+    <button id="deleteAllBtn">Delete All</button>
+    <button id="backFromViewBtn" style="background-color: #000000; margin-top: 20px;">Back</button>
+  </div>
+
+  <div id="notification"></div>
+
+  <div id="modal">
+    <div class="modal-content">
+      <p>Are you sure to close?</p>
+      <button id="yesClose">Yes</button>
+      <button id="noClose">No</button>
+    </div>
+  </div>
+
+  <div id="namePrompt">
+    <div class="modal-content">
+      <p>Enter the notes name:</p>
+      <input type="text" id="noteNameInput" placeholder="Type name here..."/>
+      <div>
+        <button class="next-btn" id="nextBtn">Next</button>
+        <button class="exit-btn" id="exitBtn">Exit</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const createBtn = document.getElementById('createBtn');
+    const viewBtn = document.getElementById('viewBtn');
+    const backBtn = document.getElementById('backBtn');
+    const main = document.getElementById('main');
+    const noteContainer = document.getElementById('noteContainer');
+    const noteArea = document.getElementById('noteArea');
+    const lineCount = document.getElementById('lineCount');
+    const charCount = document.getElementById('charCount');
+    const notification = document.getElementById('notification');
+    const modal = document.getElementById('modal');
+    const yesClose = document.getElementById('yesClose');
+    const noClose = document.getElementById('noClose');
+    const namePrompt = document.getElementById('namePrompt');
+    const nextBtn = document.getElementById('nextBtn');
+    const exitBtn = document.getElementById('exitBtn');
+    const noteNameInput = document.getElementById('noteNameInput');
+    const noteTitle = document.getElementById('noteTitle');
+    const noteTitleInput = document.getElementById('noteTitleInput');
+    const viewNotesContainer = document.getElementById('viewNotesContainer');
+    const savedNotes = document.getElementById('savedNotes');
+    const deleteAllBtn = document.getElementById('deleteAllBtn');
+    const backFromViewBtn = document.getElementById('backFromViewBtn');
+
+    let currentNoteName = '';
+    let saveTimeout;
+
+function showNotification(message) {
+  notification.textContent = message;
+  notification.style.display = 'block';
+  notification.style.opacity = '0';
+  
+  // Fade In
+  setTimeout(() => {
+    notification.style.transition = 'opacity 0.5s';
+    notification.style.opacity = '1';
+  }, 10);
+
+  // Fade Out
+  setTimeout(() => {
+    notification.style.opacity = '0';
+    // Hide after fade out
+    setTimeout(() => {
+      notification.style.display = 'none';
+    }, 500); // Match the fade-out time
+  }, 2500); // Show for 2.5 seconds before starting fade out
+}
+
+
+    function updateStats() {
+      const text = noteArea.value;
+      const lines = text.split('\n').length;
+      const chars = text.length;
+      lineCount.textContent = `Number of lines: ${lines}`;
+      charCount.textContent = `Number of characters: ${chars}`;
+    }
+
+    function autoSave() {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => {
+        try {
+          localStorage.setItem(currentNoteName, noteArea.value);
+          showNotification("Saved to Drive Successfully!");
+        } catch {
+          showNotification("Drive Not Saved!");
+        }
+      }, 2000);
+    }
+
+    createBtn.onclick = () => {
+      namePrompt.style.display = 'flex';
+    };
+
+    nextBtn.onclick = () => {
+      const name = noteNameInput.value.trim();
+      if (name) {
+        currentNoteName = name;
+        noteTitle.textContent = name;
+        noteArea.value = localStorage.getItem(name) || '';
+        updateStats();
+        namePrompt.style.display = 'none';
+        main.style.display = 'none';
+        noteContainer.style.display = 'flex';
+      }
+    };
+
+    exitBtn.onclick = () => {
+      namePrompt.style.display = 'none';
+    };
+
+    noteArea.addEventListener('input', () => {
+      updateStats();
+      autoSave();
+    });
+
+    noteTitle.onclick = () => {
+      noteTitleInput.value = noteTitle.textContent;
+      noteTitle.style.display = 'none';
+      noteTitleInput.style.display = 'block';
+      noteTitleInput.focus();
+    };
+
+    noteTitleInput.onblur = () => {
+      const newName = noteTitleInput.value.trim();
+      if (newName && newName !== currentNoteName) {
+        const oldContent = localStorage.getItem(currentNoteName);
+        localStorage.removeItem(currentNoteName);
+        currentNoteName = newName;
+        localStorage.setItem(newName, oldContent);
+      }
+      noteTitle.textContent = currentNoteName;
+      noteTitleInput.style.display = 'none';
+      noteTitle.style.display = 'block';
+    };
+
+    backBtn.onclick = () => {
+      noteContainer.style.display = 'none';
+      main.style.display = 'block';
+    };
+
+    viewBtn.onclick = () => {
+      savedNotes.innerHTML = '';
+      for (let key in localStorage) {
+        if (localStorage.hasOwnProperty(key)) {
+          const div = document.createElement('div');
+          div.className = 'note-item';
+          div.textContent = key;
+          div.onclick = () => {
+            currentNoteName = key;
+            noteTitle.textContent = key;
+            noteArea.value = localStorage.getItem(key);
+            updateStats();
+            viewNotesContainer.style.display = 'none';
+            noteContainer.style.display = 'flex';
+          };
+          savedNotes.appendChild(div);
+        }
+      }
+      main.style.display = 'none';
+      viewNotesContainer.style.display = 'flex';
+    };
+
+    backFromViewBtn.onclick = () => {
+      viewNotesContainer.style.display = 'none';
+      main.style.display = 'block';
+    };
+
+    deleteAllBtn.onclick = () => {
+      localStorage.clear();
+      savedNotes.innerHTML = '';
+      showNotification("All notes deleted.");
+    };
+  </script>
+</body>
+</html>
