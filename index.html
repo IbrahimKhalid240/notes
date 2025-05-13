@@ -266,12 +266,49 @@ img{
   font-size: 20px;
   color: red;
 }
+
+h1 span.highlight {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+h1 span.highlight::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: yellow;
+  animation: highlightMarker 3.2s forwards;
+  z-index: -1;
+}
+
+@keyframes highlightMarker {
+  0% {
+    transform: translateX(-100%);
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+
+
   </style>
 </head>
 <body>
 
   <div id="main">
-    <h1>TS-Notes <br><span>(WE WRITE NOTES)</h1></span>
+    <h1><span class="highlight" style="font-size: 2.3rem;">TS-Notes</span> <br><span>(WE WRITE NOTES)</span></h1>
+
     <div class="btn-group">
       <button id="createBtn">Create</button>
       <button id="viewBtn">View Previous Notes</button>
