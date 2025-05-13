@@ -206,6 +206,66 @@ span{
     background-color: #cd861b;
 }
 
+img{
+  position: absolute;
+  margin-left: 1000px;
+  height: 250px;
+  width: 250px;
+}
+
+#aiModal {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #222;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+#aiModal.show {
+  display: block;
+  opacity: 1;
+}
+
+#aiModal .close-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.info{
+  color: rgb(15, 124, 124);
+  font-size: 18px;
+  position: absolute;
+  margin-top: 400px;
+  white-space: pre-wrap;
+
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 2s ease;
+  pointer-events: none;
+}
+
+.soon{
+  position: absolute;
+  margin-left: 1000px;
+  margin-top: 300px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 20px;
+  color: red;
+}
   </style>
 </head>
 <body>
@@ -256,6 +316,14 @@ span{
     </div>
   </div>
 
+  <div id="aiModal">
+    <span class="close-btn" onclick="closeAIModal()">&times;</span>
+    A new feature is coming soon. Stay Tuned!
+  </div>
+  
+<img src="img44.gif" alt="image"> <p class="soon">Coming Soon!</p>
+
+<span class="info" id="infoText">
   <script>
     const createBtn = document.getElementById('createBtn');
     const viewBtn = document.getElementById('viewBtn');
@@ -408,6 +476,56 @@ function showNotification(message) {
       savedNotes.innerHTML = '';
       showNotification("All notes deleted.");
     };
+
+
+    function closeAIModal() {
+  const modal = document.getElementById('aiModal');
+  modal.style.opacity = '0';
+  setTimeout(() => {
+    modal.style.display = 'none';
+  }, 200);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    const modal = document.getElementById('aiModal');
+    modal.classList.add('show');
+
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+      modal.classList.remove('show');
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 500); // after fade-out
+    }, 4000);
+  }, 800);
+});
+
+  // Typing effect for infoText
+  const infoText = document.getElementById("infoText");
+  const fullText = `TS-Notes is the first and the only Notes app which is finally introducing their AI Integrated.
+It can do various works such as, "Auto-Detection", "Plagiarism Checker", "Answer any questions"
+and much more. Stay Tuned in Future to avail these features for free`;
+
+  let index = 0;
+  function typeEffect() {
+    if (index < fullText.length) {
+      infoText.innerHTML += fullText.charAt(index);
+      index++;
+      setTimeout(typeEffect, 30); // Adjust typing speed here
+    }
+  }
+  window.onload = typeEffect;
+
+
+  window.addEventListener('DOMContentLoaded', () => {
+  const infoText = document.getElementById('infoText');
+
+  setTimeout(() => {
+    infoText.classList.add('fade-out');
+  }, 10350); // Fade out after 3 seconds
+});
+
   </script>
 </body>
 </html>
