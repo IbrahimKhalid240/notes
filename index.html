@@ -281,7 +281,7 @@ h1 span.highlight::after {
   width: 100%;
   height: 100%;
   background: yellow;
-  animation: highlightMarker 3.2s forwards;
+  animation: highlightMarker 3.5s forwards;
   z-index: -1;
 }
 
@@ -304,7 +304,7 @@ h1 span.highlight::after {
 <body>
 
   <div id="main">
-    <h1><span class="highlight" style="font-size: 2.3rem;">TS-Notes</span> <br><span>(WE WRITE NOTES)</span></h1>
+    <h1><span class="highlight" style="font-size: 2.3rem;"><span class="jot" style="color: black; font-size: 35px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">JotMind</span> - Notes Taking</span> <br><span>(<span class="ink" style="color: green;"><i>Ink your Insights</i></span>)</span></h1>
 
     <div class="btn-group">
       <button id="createBtn">Create</button>
@@ -352,7 +352,7 @@ h1 span.highlight::after {
 
   <div id="aiModal">
     <span class="close-btn" onclick="closeAIModal()">&times;</span>
-    Now offering all Premium Features only on TS-Notes for just $0 /Coming Soon/
+    A new feature is about to release soon. Stay Tuned!
   </div>
   
 <img src="img44.gif" alt="image"> <p class="soon">Coming Soon!</p>
@@ -532,13 +532,13 @@ window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         modal.style.display = 'none';
       }, 500); // after fade-out
-    }, 4000);
+    }, 9000);
   }, 800);
 });
 
   // Typing effect for infoText
   const infoText = document.getElementById("infoText");
-  const fullText = `TS-Notes is the first and the only Notes app which is finally introducing their AI Integrated.
+  const fullText = `JotMind is the first and the only Notes app which is finally introducing their AI Integrated.
 It can do various works such as, "Auto-Detection", "Plagiarism Checker", "Answer any questions"
 and much more. Stay Tuned in Future to avail these features for free`;
 
