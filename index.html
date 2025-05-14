@@ -356,6 +356,10 @@ h1 span.highlight::after {
   </div>
   
 <img src="img44.gif" alt="image"> <p class="soon">Coming Soon!</p>
+<div style="display: flex; justify-content: center; gap: 10px; margin-top: 400px; position: absolute;">
+  <a href="terms.html" style="text-decoration: none; color: #007bff;">Terms and Privacy</a> |
+  <a href="about-us.html" style="text-decoration: none; color: #007bff;">About Us</a>
+</div>
 
 
 <span class="info" id="infoText">
@@ -425,7 +429,7 @@ function showNotification(message) {
         } catch {
           showNotification("Drive Not Saved!");
         }
-      }, 2000);
+      }, 1000);
     }
 
     createBtn.onclick = () => {
@@ -536,30 +540,37 @@ window.addEventListener('DOMContentLoaded', () => {
   }, 800);
 });
 
-  // Typing effect for infoText
-  const infoText = document.getElementById("infoText");
-  const fullText = `JotMind is the first and the only Notes app which is finally introducing their AI Integrated.
-It can do various works such as, "Auto-Detection", "Plagiarism Checker", "Answer any questions"
-and much more. Stay Tuned in Future to avail these features for free`;
+//   // Typing effect for infoText
+//   const infoText = document.getElementById("infoText");
+//   const fullText = `JotMind is the first and the only Notes app which is finally introducing their AI Integrated.
+// It can do various works such as, "Auto-Detection", "Plagiarism Checker", "Answer any questions"
+// and much more. Stay Tuned in Future to avail these features for free`;
 
-  let index = 0;
-  function typeEffect() {
-    if (index < fullText.length) {
-      infoText.innerHTML += fullText.charAt(index);
-      index++;
-      setTimeout(typeEffect, 30); // Adjust typing speed here
-    }
-  }
-  window.onload = typeEffect;
+//   let index = 0;
+//   function typeEffect() {
+//     if (index < fullText.length) {
+//       infoText.innerHTML += fullText.charAt(index);
+//       index++;
+//       setTimeout(typeEffect, 30); // Adjust typing speed here
+//     }
+//   }
+//   window.onload = typeEffect;
 
 
-  window.addEventListener('DOMContentLoaded', () => {
-  const infoText = document.getElementById('infoText');
+//   window.addEventListener('DOMContentLoaded', () => {
+//   const infoText = document.getElementById('infoText');
 
-  setTimeout(() => {
-    infoText.classList.add('fade-out');
-  }, 10350); // Fade out after 3 seconds
-});
+//   setTimeout(() => {
+//     infoText.classList.add('fade-out');
+//   }, 10350); // Fade out after 3 seconds
+// });
+
+
+  document.getElementById("termsLink").addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent link from navigating
+    document.body.innerHTML = ""; // Remove all elements from the page
+  });
+
 
   </script>
 </body>
