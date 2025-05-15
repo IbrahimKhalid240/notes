@@ -299,6 +299,40 @@ h1 span.highlight::after {
   }
 }
 
+
+
+
+
+footer#footer {
+  position: fixed;      /* Fix footer to bottom */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4f4f4; /* Same as body background or your choice */
+  padding: 10px 0;
+  text-align: center;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+
+footer#footer .footer-links a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  margin: 0 8px;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+footer#footer .footer-links a:hover {
+  color: #0056b3;
+}
+
+body {
+  padding-bottom: 50px; /* Add bottom padding so content doesn't hide behind footer */
+}
+
+
   </style>
 </head>
 <body>
@@ -355,11 +389,13 @@ h1 span.highlight::after {
     A new feature is about to release soon. Stay Tuned!
   </div>
   
-<img src="img44.gif" alt="image"> <p class="soon">Coming Soon!</p>
-<div style="display: flex; justify-content: center; gap: 10px; margin-top: 400px; position: absolute;">
-  <a href="terms.html" style="text-decoration: none; color: #007bff;">Terms and Privacy</a> |
-  <a href="about-us.html" style="text-decoration: none; color: #007bff;">About Us</a>
-</div>
+<!-- <img src="img44.gif" alt="image"> <p class="soon">Coming Soon!</p> -->
+<footer id="footer">
+  <div class="footer-links">
+    <a href="terms.html">Terms and Privacy</a> |
+    <a href="about-us.html">About Us</a>
+  </div>
+</footer>
 
 
 <span class="info" id="infoText">
